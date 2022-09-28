@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<script>
+     $("#btn_prova").bind('click',function () {
+        var formData = {
+            titolo: "Misery",
+            id: "4",
+        };
+        $.ajax({
+            type: "POST",
+            url: "/cancella",
+            data: formData,
+            dataType: "json",
+            encode: true,
+        }).done(function (data) {
+            $("#div-prova").append(
+                '<div>bene</div>"
+            );
+        })      
+        .fail(function (data) {
+            $("#div-prova").append(
+                '<div>male</div>"
+            );
+      });
+    });
+</script>
+<div class="dropdown" style="float:right">
+    <button class="btn" type="button" data-bs-toggle="dropdown">
+        <img src = "static/img/more-vertical.svg" alt="puntini"/>
+    </button>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+        <li><a class="dropdown-item" href="#1">Info</a></li>
+        <li><a class="dropdown-item" href="#2">Modifica</a></li>
+        <li><a class="dropdown-item" href="#3">Elimina</a></li>
+        <li><input type="button" class="dropdown-item" id="btn_prova" value="Prova" /></li>
+    </ul>
+</div>
+<div id="div-prova">come è andata?</div>
+{% endblock %}
+

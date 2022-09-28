@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <script src="https://code.jquery.com/jquery-3.6.1.js"
+        integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+    <script>
+      $(function() {
+        $('#calculate').bind('click', function() {
+          $.getJSON('https://Cose-da-Leggere.tommasob99.repl.co' + '/_add_numbers', {
+            a: $('input[name="a"]').val(),
+            b: $('input[name="b"]').val()
+          }, function(data) {
+            $("#result").text(data.result);
+          });
+          return false;
+        });
+      });
+    </script>
+    
+        
+    <h1>jQuery Example</h1>
+    <p><input type=text size=5 name=a> +
+       <input type=text size=5 name=b> =
+       <span id=result>?</span>
+    <p><a href=# id=calculate>calculate server side</a>
+{% endblock %}

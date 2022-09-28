@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!--<script src="{{url_for('static', filename='js/form.js')}}"></script>-->
+
+<div class="col-sm-6 col-sm-offset-3">
+    <h1>Processing an AJAX Form</h1>
+
+    <form id="form" action="/form" method="POST">
+        <div id="titolo-group" class="form-group">
+            <label for="titolo">Titolo*</label>
+            <input type="text" class="form-control" name="titolo" id="titolo" placeholder="titolo">
+        </div>
+        <div id="autore-group" class="form-group">
+            <label for="autore">Autore</label>
+            <input type="text" class="form-control" name="autore" id="autore" placeholder="autore">
+        </div>
+        <div id="tipo-group" class="form-group">
+            <label for="tipo">Tipo*</label>
+            <select name="tipo" id="tipo">
+                <option value="">--Tipo--</option>
+                <option value="Libro">Libro</option>
+                <option value="EBook">EBook</option>
+                <option value="Audiolibro">Audiolibro</option>
+                <option value="Manga">Manga</option>
+                <option value="Manuale">Manuale</option>
+            </select>
+        </div>
+        <div id="stato-group" class="form-group">
+            <label for="stato">Stato*</label>
+            <select name="stato" id="stato">
+                <option value="">--Stato--</option>
+                <option value="da finire">da finire</option>
+                <option value="da iniziare">da iniziare</option>
+                <option value="da comprare">da comprare</option>
+                <option value="finito">finito</option>
+            </select>
+        </div>
+        <div id="pubblicazione-group" class="form-group">
+            <label for="pubblicazione">Pubblicazione</label>
+            <input type="date" name="pubblicazione" id="pubblicazione">
+        </div>
+        <div id="pagine-group" class="form-group">
+            <label for="pagine">Pagine</label>
+            <input type="number" name="pagine" id="pagine" min="1">
+        </div>
+        <div id="prezzo-group" class="form-group">
+            <label for="prezzo">Prezzo</label>
+            <input type="number" name="prezzo" id="prezzo" min="0.00" step="0.01" />
+        </div>
+        <div id="inizio-group" class="form-group">
+            <label for="inizio">Inizio</label>
+            <input type="date" name="inizio" id="inizio">
+        </div>
+        <div id="fine-group" class="form-group">
+            <label for="fine">Fine</label>
+            <input type="date" name="fine" id="fine">
+        </div>
+        <div id="note-group" class="form-group">
+            <label for="note">Note</label>
+            <textarea name="note" id="note" rows="4" cols="50"></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">
+            Submit
+        </button>
+    </form>
+</div>
+
+{% endblock %}

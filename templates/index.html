@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 style=" text-align: center;">{% block title %}Libri{% endblock %}</h1>
+    <table class="table">
+        <tbody id="libri">
+            {% for dati in libri %}
+            <tr>
+                <td class="align-middle" id="titoloLibro" style="padding: 0.25rem">{{ dati['titolo'] }}</td>
+                <td class="align-middle" style="padding: 0.25rem">
+                    <div class="dropdown" style="float:right">
+                        <button class="btn" type="button" data-bs-toggle="dropdown" id="btnMenu">
+                            <img src = "static/img/more-vertical.svg" alt="puntini"/>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                            <li class="info"><a class="dropdown-item" id="info" href="#1">Info</a></li>
+                            <li class="modifica"><a class="dropdown-item" id="modifica" href="#2">Modifica</a></li>
+                            <li class="elimina"><a class="dropdown-item" id="elimina" value="{{dati['id']}}" href="#3">Elimina</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>      
+    </table>  
+{% endblock %}

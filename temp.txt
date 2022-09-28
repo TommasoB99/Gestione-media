@@ -1,0 +1,167 @@
+div class="dropdown">
+                <button class="btn btn-primary" type="button" data-toggle="dropdown">Ciao
+                    <span class="glyphicon glyphicon-option-vertical"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">HTML</a></li>
+                    <li><a href="#">CSS</a></li>
+                    <li><a href="#">JavaScript</a></li>
+                </ul>
+            </div>
+
+
+
+
+INSERT INTO libri (id,titolo,tipo,autore,pubblicazione,pagine,prezzo,inizio,fine,note) VALUES (
+  '1',
+  'La via dei re. Le cronache della Folgoluce',
+  'Libro- Kindle',
+  'Brandon Sanderson',
+  '2022/04/12',
+  '1541',
+  '13.99',
+  '',
+  '',
+  ''
+); 
+
+
+
+
+connection = sqlite3.connect('data/libri.db')
+cur = connection.cursor()
+temp = cur.execute("""SELECT * FROM libri""").fetchall()
+print(temp)
+connection.commit()
+connection.close()
+
+comando = """DELETE FROM credenziali"""
+comando = """SELECT * FROM libri"""
+
+data-toggle="modal" data-target="#exampleModal"
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function () {
+    $("form").submit(function (event) {
+        $(".form-group").removeClass("has-error");
+        $(".help-block").remove();
+        var formData = {
+            name: $("#name").val(),
+            email: $("#email").val(),
+            superheroAlias: $("#superheroAlias").val(),
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "https://Cose-da-Leggere.tommasob99.repl.co/form",
+            data: formData,
+            dataType: "json",
+            encode: true,
+        }).done(function (data) {
+            console.log(data);
+
+            if (!data.success) {
+                if (data.errors.name) {
+                    $("#name-group").addClass("has-error");
+                    $("#name-group").append(
+                        '<div class="help-block">' + data.errors.name + "</div>"
+                    );
+                }
+
+                if (data.errors.email) {
+                    $("#email-group").addClass("has-error");
+                    $("#email-group").append(
+                        '<div class="help-block">' + data.errors.email + "</div>"
+                    );
+                }
+
+                if (data.errors.superheroAlias) {
+                    $("#superhero-group").addClass("has-error");
+                    $("#superhero-group").append(
+                        '<div class="help-block">' + data.errors.superheroAlias + "</div>"
+                    );
+                }
+            } else {
+                $("form").html(
+                    '<div class="alert alert-success">' + data.message + "</div>"
+                );
+            }
+        })      
+        .fail(function (data) {
+        $("form").html(
+          '<div class="alert alert-danger">Could not reach server, please try again later.</div>'
+        );
+      });
+        event.preventDefault();
+    });
+});
+</script>
+
+
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %}Libri{% endblock %}</h1>
+    <table class="table">
+    <thead>
+      <tr>
+        <th>Titolo</th>
+        <th><a href="#"><img href="#" src = "static/img/search.svg" alt="cerca" style="width:1rem"/></a></th>
+      </tr>
+    </thead>
+    {% for dati in libri %}
+    <tbody>
+      <tr>
+        <td class="align-middle" >{{ dati['titolo'] }}</td>
+        <td class="align-middle" >
+            <div class="dropdown" style="float:right">
+                <button class="btn" type="button" data-bs-toggle="dropdown">
+                    <img src = "static/img/more-vertical.svg" alt="puntini"/>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                    <li><a class="dropdown-item" href="#1">Info</a></li>
+                    <li><a class="dropdown-item" href="#2">Modifica</a></li>
+                    <li><a class="dropdown-item" href="#3" >Elimina</a></li>
+                </ul>
+            </div>
+        </td>
+      </tr>
+    </tbody>      
+    {% endfor %}
+    </table>  
+{% endblock %}
+
+
+@app.route('/<int:id>/delete', methods=('POST',))
+def delete(id):
+    post = get_post(id)
+    conn = get_db_connection()
+    conn.execute('DELETE FROM posts WHERE id = ?', (id,))
+    conn.commit()
+    conn.close()
+    flash('"{}" was successfully deleted!'.format(post['title']))
+    return redirect(url_for('index'))
+
+
+<tbody>
+      <tr>
+        <td class="align-middle" style="padding: 0.25rem">Angeli e Demoni</td>
+        <td class="align-middle" style="padding: 0.25rem">
+            <div class="dropdown" style="float:right">
+                <button class="btn" type="button" data-bs-toggle="dropdown">
+                    <img src="static/img/more-vertical.svg" alt="puntini">
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                    <li><a class="dropdown-item" href="#1">Info</a></li>
+                    <li><a class="dropdown-item" href="#2">Modifica</a></li>
+                    <li><a class="dropdown-item" href="9/cancella" method="POST">Elimina</a></li>
+                </ul>
+            </div>
+        </td>
+      </tr>
+</tbody>

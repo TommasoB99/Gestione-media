@@ -1,0 +1,15 @@
+ <tr>
+    <td class="align-middle" id="titoloLibro" style="padding: 0.25rem">{{ dati['titolo'] }}</td>
+    <td class="align-middle" style="padding: 0.25rem">
+        <div class="dropdown" style="float:right">
+            <button class="btn" type="button" data-bs-toggle="dropdown">
+                <img src = "static/img/more-vertical.svg" alt="puntini"/>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                <li><a class="dropdown-item" href="#1">Info</a></li>
+                <li><a class="dropdown-item" href="#2">Modifica</a></li>
+                <li><a class="dropdown-item" href="{{dati['id']}}/cancella" method="POST" >Elimina</a></li>
+            </ul>
+        </div>
+    </td>
+  </tr>
