@@ -2,6 +2,7 @@ import sqlite3
 
 LEGGI = """SELECT * FROM libri"""
 CANCELLA = """DELETE FROM libri"""
+CANCELLA_LIBRO = """DELETE FROM libri WHERE id=<--id-->"""
 CERCA_ID = """SELECT * FROM libri WHERE id = <--id-->"""
 CERCA_TITOLO = """SELECT * FROM libri WHERE titolo = '<--titolo-->'"""
 INSERISCI = """INSERT INTO libri (titolo,tipo,stato,autore,pubblicazione,pagine,prezzo,inizio,fine,note) VALUES (
@@ -69,13 +70,20 @@ def cancella_tutto():
     connessione.commit()
     connessione.close()
 
+#CANCELLA UN LIBRO IN BASE ALL'ID 
+def cancella_libro(libro_id):
+    connessione = connetti()
+    connessione.execute(CANCELLA_LIBRO.replace("<--id-->", str(libro_id)))
+    connessione.commit()
+    connessione.close()
+
 
 #OTTINEI I DATI DI UN LIBRO IN BASE ALL'ID
-def get_libro(libri_id=None, libri_titolo=None):
-    print(libri_titolo)
+def get_libro(libro_id=None, libro_titolo=None):
+    print(libro_titolo)
     connessione = connetti()
     cur = connessione.cursor()
-    comando = CERCA_TITOLO.replace("<--titolo-->", libri_titolo)
+    comando = CERCA_TITOLO.replace("<--titolo-->", libro_titolo)
     post = cur.execute(comando).fetchone()
     print(post['id'])
     connessione.commit()
@@ -104,3 +112,4 @@ def prova_cerca(titolo):
 
 
 #prova_cerca('prova08')
+

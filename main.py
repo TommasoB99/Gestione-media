@@ -36,10 +36,12 @@ def create():
     return redirect(url_for('index'))
 
 
-@app.route('/cancella', methods=('POST', ))
+@app.route('/cancella', methods=('POST', 'GET'))
 def cancella():
-    print("l'id del libro selezionato è " + str(request.post.get("titolo")))
-    return redirect(url_for('index'))
+    data = {}
+    data['id'] = request.values.get('id')
+    cancella_libro(data['id'])
+    return jsonify(data)
 
 
 @app.route('/provaTabella')
@@ -108,10 +110,11 @@ def form():
         data['success'] = False
         data['errors'] = errors
 
-    libro = get_libro(libri_titolo=titolo)
+    libro = get_libro(libro_titolo=titolo)
     print(libro['titolo'], libro['id'])
-    data['markup'] = MARKUP.replace('<--titolo-->', libro['titolo']+ ' - ' +str(libro['id'])).replace(
-        '<--id-->', str(libro['id']))
+    data['markup'] = MARKUP.replace('<--titolo-->', libro['titolo'] + ' - ' +
+                                    str(libro['id'])).replace(
+                                        '<--id-->', str(libro['id']))
     temp = jsonify(data)
     return temp
 

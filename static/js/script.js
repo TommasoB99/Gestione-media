@@ -80,7 +80,7 @@ $(document).ready(function () {
     });
     
     //
-    $("li.elimina a:contains('Elimina')").click(function(){
+    $("#libri").on("click","li.elimina .dropdown-item",function(){
         $.post("prova",
         {
             id: $(this).attr("value")
