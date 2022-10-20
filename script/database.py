@@ -4,19 +4,31 @@ LEGGI = """SELECT * FROM libri"""
 CANCELLA = """DELETE FROM libri"""
 CANCELLA_LIBRO = """DELETE FROM libri WHERE id=<--id-->"""
 CERCA_ID = """SELECT * FROM libri WHERE id = <--id-->"""
-CERCA_TITOLO = """SELECT * FROM libri WHERE titolo = '<--titolo-->'"""
+CERCA_TITOLO = """SELECT * FROM libri WHERE titolo = "<--titolo-->" """
 INSERISCI = """INSERT INTO libri (titolo,tipo,stato,autore,pubblicazione,pagine,prezzo,inizio,fine,note) VALUES (
-  '<--titolo-->',
-  '<--tipo-->',
-  '<--stato-->',
-  '<--autore-->',
-  '<--pubblicazione-->',
-  '<--pagine-->',
-  '<--prezzo-->',
-  '<--inizio-->',
-  '<--fine-->',
-  '<--note-->'
+  "<--titolo-->",
+  "<--tipo-->",
+  "<--stato-->",
+  "<--autore-->",
+  "<--pubblicazione-->",
+  "<--pagine-->",
+  "<--prezzo-->",
+  "<--inizio-->",
+  "<--fine-->",
+  "<--note-->"
 );"""
+MODIFICA = """UPDATE libri SET 
+  titolo="<--titolo-->",
+  tipo="<--tipo-->",
+  stato="<--stato-->",
+  autore="<--autore-->",
+  pubblicazione="<--pubblicazione-->",
+  pagine="<--pagine-->",
+  prezzo="<--prezzo-->",
+  inizio="<--inizio-->",
+  fine="<--fine-->",
+  note="<--note-->"
+  WHERE id=<--id-->; """
 
 
 #CONNETTITI AL DATABASE
@@ -70,7 +82,8 @@ def cancella_tutto():
     connessione.commit()
     connessione.close()
 
-#CANCELLA UN LIBRO IN BASE ALL'ID 
+
+#CANCELLA UN LIBRO IN BASE ALL'ID
 def cancella_libro(libro_id):
     connessione = connetti()
     connessione.execute(CANCELLA_LIBRO.replace("<--id-->", str(libro_id)))
@@ -80,12 +93,18 @@ def cancella_libro(libro_id):
 
 #OTTINEI I DATI DI UN LIBRO IN BASE ALL'ID
 def get_libro(libro_id=None, libro_titolo=None):
-    print(libro_titolo)
     connessione = connetti()
     cur = connessione.cursor()
-    comando = CERCA_TITOLO.replace("<--titolo-->", libro_titolo)
+    if (libro_id != None):
+        comando = CERCA_ID.replace("<--id-->", str(libro_id))
+        print("id not null")
+    elif (libro_titolo != None):
+        comando = CERCA_TITOLO.replace("<--titolo-->", str(libro_titolo))
+        print("titolo not null")
+    else:
+        print("errore")
+        return
     post = cur.execute(comando).fetchone()
-    print(post['id'])
     connessione.commit()
     connessione.close()
     if post is None:
@@ -93,23 +112,24 @@ def get_libro(libro_id=None, libro_titolo=None):
     return post
 
 
-def prova_add():
-    connessione = sqlite3.connect('data/libri.db')
-    cursore = connessione.cursor()
-    cursore.execute(aggiungi('I racconti di Cthulhu', 'Libro', 'Finito'))
-    connessione.commit()
-    connessione.close()
-
-
-def prova_cerca(titolo):
+def modifica_libro(data):
+    comando = MODIFICA.replace('<--titolo-->', data['titolo']).replace(
+        '<--tipo-->',
+        data['tipo']).replace('<--stato-->', data['stato']).replace(
+            '<--autore-->', data['autore']).replace(
+                '<--pubblicazione-->', data['pubblicazione']).replace(
+                    '<--pagine-->', data['pagine']).replace(
+                        '<--prezzo-->', data['prezzo']).replace(
+                            '<--inizio-->', data['inizio']).replace(
+                                '<--fine-->',
+                                data['fine']).replace('<--note-->',
+                                                      data['note']).replace(
+                                                          '<--id-->',
+                                                          data['id'])
+    print(comando)
     connessione = connetti()
     cur = connessione.cursor()
-    comando = CERCA_TITOLO.replace("<--titolo-->", titolo)
-    post = cur.execute(comando).fetchone()
-    print(post['id'])
+    risultato = cur.execute(comando)
     connessione.commit()
     connessione.close()
-
-
-#prova_cerca('prova08')
-
+    return risultato

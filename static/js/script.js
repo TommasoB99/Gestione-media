@@ -1,6 +1,6 @@
 
 $(document).ready(function () {
-    $("#form").submit(function (event) {
+    $("#form-modal").submit(function (event) {
         $(".form-group").removeClass("has-error");
         $(".help-block").remove();
         var formData = {
@@ -49,45 +49,148 @@ $(document).ready(function () {
             } else {
                 alert(data.message);
                 $('#modal').modal('hide');
-                $("#form").trigger("reset");
+                $(".modal-body #form-modal").trigger("reset");
                 $("#libri").append(
                     data.markup
                 );
             }
         })      
         .fail(function (data) {
-        $("#form").html(
+        $("#form-modal").html(
           '<div class="alert alert-danger">Impossibile raggiungere il server.</div>'
         );
       });
         event.preventDefault();
     });
 
-    $(".add-row").click(function () {
-        var name = $("#name").val();
-        var email = $("#email").val();
-        var markup = "<tr><td><input type='checkbox' name='record'></td><td>" + name + "</td><td>" + email + "</td></tr>";
-        $("table tbody").append(markup);
+   $("#libri").on("click","li.modifica .dropdown-item",function(){
+        $('#modal').modal('show')
+        $(".modal-body #btn_modifica").hide();
+        $(".modal-body #btn_submit").show();
+       $(".modal-body #btn_c_modifica").hide();
     });
 
-    // Find and remove selected table rows
-    $(".delete-row").click(function () {
-        $("table tbody").find('input[name="record"]').each(function () {
-            if ($(this).is(":checked")) {
-                $(this).parents("tr").remove();
-            }
-        });
-    });
     
-    //
+    
+    //CACELLA il libro dalla lista e dal database
     $("#libri").on("click","li.elimina .dropdown-item",function(){
-        $.post("prova",
-        {
-            id: $(this).attr("value")
+        if (confirm("Vuoi cancellare il libro?") == true) {
+            $.post("cancella",{
+                id: $(this).parent().parent().data("id")
+            },
+            function(data,status){
+                console.log(data);
+                $(data.codice).remove()
+                alert('libro cancellato');
+            }); 
+        } else { 
+            alert('libro non cancellato');
+        }
+    });
+
+    //MOSTRA le informazioni del libro in questione
+    $("#libri").on("click","li.info .dropdown-item",function(){
+        $.post("info",{
+            id: $(this).parent().parent().data("id")
         },
         function(data,status){
             console.log(data);
-            alert("Data: " + data.id);
-        });
+            $(".modal-header #exampleModalLabel").text("Modifica libro");
+            $(".modal-body #form-modal").data("id",data.id)
+            alert($(".modal-body #form-modal").data("id"))
+            $(".modal-body :input").prop( "disabled", true );
+            $(".modal-body button").prop( "disabled", false );
+            $(".modal-body #btn_submit").hide();
+            $(".modal-body #btn_modifica").show();
+            $(".modal-body #btn_c_modifica").hide();
+            $(".modal-body #titolo").val(data.titolo);
+            $(".modal-body #autore").val(data.autore);
+            $(".modal-body #tipo").val(data.tipo);
+            $(".modal-body #stato").val(data.stato);
+            $(".modal-body #pubblicazione").val(data.pubblicazione);
+            $(".modal-body #pagine").val(data.pagine);
+            $(".modal-body #prezzo").val(data.prezzo);
+            $(".modal-body #inizio").val(data.inizio);
+            $(".modal-body #fine").val(data.fine);
+            $(".modal-body #note").val(data.note);
+        }); 
+    });
+
+    //MODIFICA le informazioni del libro in questione
+    $("#libri").on("click","li.modifica .dropdown-item",function(){
+        $.post("info",{
+            id: $(this).parent().parent().data("id")
+        },
+        function(data,status){
+            console.log(data);
+            alert(data.id)
+            $(".modal-header #exampleModalLabel").text("Informazioni libro");
+            $(".modal-body #form-modal").data("id",data.id)
+            //$(".modal-body :input").prop( "disabled", true );
+            //$(".modal-body button").prop( "disabled", false );
+            $(".modal-body #btn_submit").hide();
+            $(".modal-body #btn_modifica").hide();
+            $(".modal-body #btn_c_modifica").show();
+            $(".modal-body #titolo").val(data.titolo);
+            $(".modal-body #autore").val(data.autore);
+            $(".modal-body #tipo").val(data.tipo);
+            $(".modal-body #stato").val(data.stato);
+            $(".modal-body #pubblicazione").val(data.pubblicazione);
+            $(".modal-body #pagine").val(data.pagine);
+            $(".modal-body #prezzo").val(data.prezzo);
+            $(".modal-body #inizio").val(data.inizio);
+            $(".modal-body #fine").val(data.fine);
+            $(".modal-body #note").val(data.note);
+        }); 
+    });
+
+    $("#btn_add").click(function () {
+        $('#modal').modal('show')
+        $(".modal-body #btn_modifica").hide();
+        $(".modal-body #btn_submit").show();
+        $(".modal-body #btn_c_modifica").hide();
+    });
+
+    $('#modal').on('hidden.bs.modal', function () {
+        $(".modal-body #form-modal").trigger("reset");
+        $(".modal-body :input").prop( "disabled", false );
+    })
+
+    $("#btn_modifica").click(function () {
+        alert("ciao");
+        //$('#modal').modal('show')
+        //$(".modal-body #btn_modifica").hide();
+        //$(".modal-body #btn_submit").show();
+    });
+
+    $("#btn_c_modifica").click(function () {
+        if (confirm("Vuoi modificare il libro?") == true) {
+            $.post("modifica",{
+                id: $(".modal-body #form-modal").data("id"),
+                titolo: $("#titolo").val(),
+                autore: $("#autore").val(),
+                tipo: $("#tipo").val(),
+                stato: $("#stato").val(),
+                pubblicazione: $("#pubblicazione").val(),
+                pagine: $("#pagine").val(),
+                prezzo: $("#prezzo").val(),
+                inizio: $("#inizio").val(),
+                fine: $("#fine").val(),
+                note: $("#note").val(),
+            },
+            function(data,status){
+                console.log(data);
+                if($('#codice'+data.id+' #titoloLibro').text() !==data.titolo){
+                    $('#codice'+data.id+' #titoloLibro').text(data.titolo) 
+                    alert("il titolo è cambiato")
+                }else{
+                    alert(($('#codice'+data.id+' #titoloLibro').text() + ' ' + data.titolo))
+                }
+                alert('Modifiche confermate');  
+                $('#modal').modal('hide');
+            }); 
+        } else { 
+            alert('Modifiche annullate');
+        }
     });
 });

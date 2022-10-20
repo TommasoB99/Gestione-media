@@ -165,3 +165,12 @@ def delete(id):
         </td>
       </tr>
 </tbody>
+
+
+
+ $("#btn_esporta").click(function () {
+        $.post("esporta",
+        function(data,status){
+           alert("prova")
+        }); 
+    });

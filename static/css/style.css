@@ -9,10 +9,12 @@ a:link {
 .dropdown, .dropup{
     position:static!important;    
 }
+
 .wrapper{
     position:relative;
     width:70%;
 }
+
 ul.dropdown-menu{
     right:auto!important;
     left:0!important;
@@ -111,4 +113,9 @@ ul.dropdown-menu{
 th, td {
   padding-bottom: 0.25rem;
   padding-top: 1rem;
+}
+
+#stato:disabled, #tipo:disabled, #note:disabled, input[type="number"]:disabled, input[type="text"]:disabled, input[type="date"]:disabled {
+    background: transparent;
+    border-color: transparent;
 }

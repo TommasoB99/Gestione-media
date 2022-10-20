@@ -30,21 +30,15 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">Giochi</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Film</a>
+                        </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#modal">Aggiungi
+                            <a class="nav-link" href="#" id="btn_add">Aggiungi
                                 Libro</a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="provaTabella">Prova Tabella</a>
-                        </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="provaAjax">Prova Ajax</a>
-                        </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="provaForm">Prova Form</a>
-                        </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="prova">Prova</a>
+                            <a class="nav-link" href="esporta" id="btn_esporta">Esporta Database</a>
                         </li>
                     </ul>
                     <form class="d-flex">
@@ -68,10 +62,10 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="form" action="/form" method="POST">
+                        <form id="form-modal" action="/form" method="POST">
                             <div id="titolo-group" class="form-group">
                                 <label for="titolo">Titolo*</label>
-                                <input type="$("#myForm").trigger("reset");" class="form-control" name="titolo" id="titolo" placeholder="titolo">
+                                <input type="text" class="form-control" name="titolo" id="titolo" placeholder="titolo">
                             </div>
                             <div id="autore-group" class="form-group">
                                 <label for="autore">Autore</label>
@@ -94,6 +88,7 @@
                                     <option value="">--Stato--</option>
                                     <option value="da finire">da finire</option>
                                     <option value="da iniziare">da iniziare</option>
+                                     <option value="in pari">in pari</option>
                                     <option value="da comprare">da comprare</option>
                                     <option value="finito">finito</option>
                                 </select>
@@ -104,11 +99,11 @@
                             </div>
                             <div id="pagine-group" class="form-group">
                                 <label for="pagine">Pagine</label>
-                                <input type="number" name="pagine" id="pagine" min="1">
+                                <input type="number" name="pagine" id="pagine" min="1" placeholder="pagine">
                             </div>
                             <div id="prezzo-group" class="form-group">
                                 <label for="prezzo">Prezzo</label>
-                                <input type="number" name="prezzo" id="prezzo" min="0.00" step="0.01" />
+                                <input type="number" name="prezzo" id="prezzo" min="0.00" step="0.01" placeholder="prezzo" />
                             </div>
                             <div id="inizio-group" class="form-group">
                                 <label for="inizio">Inizio</label>
@@ -120,12 +115,21 @@
                             </div>
                             <div id="note-group" class="form-group">
                                 <label for="note">Note</label>
-                                <textarea name="note" id="note" rows="4" cols="50"></textarea>
+                                <textarea name="note" id="note" rows="4" cols="50" placeholder="note"></textarea>
                             </div>
-                            <button type="submit" class="btn btn-success">
-                                Submit
+                            <div id="id-group" class="form-id" style="visibility:hidden;">
+                                <input type="number" name="id" id="id" value="" />
+                            </div>
+                            <button type="submit" class="btn btn-success" id="btn_submit">
+                                Conferma
                             </button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <button type="button" class="btn btn-success" id="btn_modifica">
+                                Modifica
+                            </button>
+                            <button type="button" class="btn btn-success" id="btn_c_modifica">
+                                Conferma Modifiche
+                            </button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn_annulla">
                                 Annulla
                             </button>
                         </form>
